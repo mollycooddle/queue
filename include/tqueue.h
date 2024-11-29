@@ -1,34 +1,25 @@
 ﻿#pragma once
 
 #include <iostream>
-#include <vector>
+#include <list>
 
 template<class T>
 class Queue
 {
-	std::vector<T> data;
-	int tp;
+	std::list<T> data;
 
 public:
-	Queue(int n = 0, T value = T()) : tp(n - 1)
+	Queue(int n = 0, T value = T())
 	{
 		if (n < 0)
 			throw "negative size";
 
-		data = std::vector<T>(n, value);
-	}
-
-	void change(T value) noexcept
-	{
-		pop();
-		push(value);
+		data = std::list<T>(n, value);
 	}
 
 	void push(const T& val) noexcept
 	{
-
 		data.push_back(val);
-		tp++;
 	}
 
 	void pop()
@@ -37,8 +28,7 @@ public:
 			throw "Queue Empty";
 		}
 
-		data.erase(data.begin());
-		tp--;
+		data.pop_front();
 	}
 
 	T& top()
@@ -47,12 +37,12 @@ public:
 			throw "Queue Empty";
 		}
 
-		return data[tp];
+		return data.back();
 	}
 
 	bool empty() noexcept
 	{
-		if (tp == -1) {
+		if (data.size() == 0) {
 			return true;
 		}
 		else {
@@ -62,6 +52,6 @@ public:
 
 	size_t size()
 	{
-		return (tp >= 0 ? tp + 1 : 0);
+		return data.size();
 	}
 };
